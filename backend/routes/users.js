@@ -9,7 +9,6 @@ const authorize = require('../middleware/authorize');
 
 const router = express.Router();
 
-// Configure multer for file upload
 const upload = multer({ dest: 'uploads/' });
 
 // Upload CGPA CSV
