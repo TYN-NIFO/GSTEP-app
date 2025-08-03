@@ -5,7 +5,8 @@ import App from './App';
 import axios from 'axios';
 
 // Set default axios configuration
-axios.defaults.baseURL = 'http://localhost:5000';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+axios.defaults.baseURL = API_BASE_URL;
 axios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');

@@ -20,64 +20,63 @@ export const useJobDrives = () => {
 
   const loadJobDrives = async (filters) => {
     try {
-      await dispatch(fetchJobDrives(filters)).unwrap();
-      return { success: true };
+      const result = await dispatch(fetchJobDrives(filters)).unwrap();
+      return result;
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
     }
   };
 
   const loadJobDriveById = async (id) => {
     try {
-      await dispatch(fetchJobDriveById(id)).unwrap();
-      return { success: true };
+      const result = await dispatch(fetchJobDriveById(id)).unwrap();
+      return result;
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
     }
   };
 
   const handleCreateJobDrive = async (jobDriveData) => {
     try {
-      await dispatch(createJobDrive(jobDriveData)).unwrap();
-      return { success: true };
+      const result = await dispatch(createJobDrive(jobDriveData)).unwrap();
+      return result;
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
     }
   };
 
   const handleUpdateJobDrive = async (id, data) => {
     try {
-      await dispatch(updateJobDrive({ id, data })).unwrap();
-      return { success: true };
+      const result = await dispatch(updateJobDrive({ id, data })).unwrap();
+      return result;
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
     }
   };
 
   const handleDeleteJobDrive = async (id) => {
     try {
       await dispatch(deleteJobDrive(id)).unwrap();
-      return { success: true };
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
     }
   };
 
   const handleApplyToJobDrive = async (jobDriveId) => {
     try {
-      await dispatch(applyToJobDrive(jobDriveId)).unwrap();
-      return { success: true };
+      const result = await dispatch(applyToJobDrive(jobDriveId)).unwrap();
+      return result;
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
     }
   };
 
   const handleWithdrawApplication = async (jobDriveId) => {
     try {
-      await dispatch(withdrawApplication(jobDriveId)).unwrap();
-      return { success: true };
+      const result = await dispatch(withdrawApplication(jobDriveId)).unwrap();
+      return result;
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
     }
   };
 
@@ -99,6 +98,7 @@ export const useJobDrives = () => {
     loading,
     error,
     filters,
+    fetchJobDrives: loadJobDrives,
     loadJobDrives,
     loadJobDriveById,
     createJobDrive: handleCreateJobDrive,

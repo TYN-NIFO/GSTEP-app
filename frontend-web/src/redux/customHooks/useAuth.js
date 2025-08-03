@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { login, logout, getCurrentUser, register, clearError } from '../features/authSlice';
+import { login, logout, getCurrentUser, register, resendVerification, clearError } from '../features/authSlice';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -13,30 +13,36 @@ export const useAuth = () => {
     }
   }, [dispatch, isAuthenticated, user]);
 
-  const handleLogin = async (email, password) => {
+  const handleLogin = async (credentials) => {
     try {
-      await dispatch(login({ email, password })).unwrap();
-      return { success: true };
+      const result = await dispatch(login(credentials)).unwrap();
+      return result;
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
     }
   };
 
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
-      return { success: true };
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
     }
   };
 
   const handleRegister = async (userData) => {
     try {
       await dispatch(register(userData)).unwrap();
-      return { success: true };
     } catch (error) {
-      return { success: false, error: error };
+      throw error;
+    }
+  };
+
+  const handleResendVerification = async (email) => {
+    try {
+      await dispatch(resendVerification(email)).unwrap();
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -52,6 +58,7 @@ export const useAuth = () => {
     login: handleLogin,
     logout: handleLogout,
     register: handleRegister,
+    resendVerification: handleResendVerification,
     clearError: clearAuthError,
   };
 }; 
