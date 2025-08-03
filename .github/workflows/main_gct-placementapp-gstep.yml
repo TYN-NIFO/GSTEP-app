@@ -1,7 +1,6 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
+# .github/workflows/azure-backend-deploy.yml
 
-name: Build and deploy Node.js backend to Azure Web App - gct-placementapp-gstep
+name: Backend - gct-placementapp-gstep - Build and deploy Node.js backend to Azure Web App 
 
 on:
   push:
@@ -15,17 +14,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read # This is required for actions/checkout
+      contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x'
+          node-version: '18.x'
 
-      - name: npm install, build, and test (backend only)
+      - name: Install, build, and test backend
         working-directory: ./backend
         run: |
           npm install
@@ -36,13 +36,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-backend
-          path: backend
+          path: backend  # Upload the entire backend folder
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write # This is required for requesting the JWT
+      id-token: write
       contents: read
 
     steps:
@@ -50,8 +50,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-backend
+          path: backend  # Restore to backend/ folder
 
-      - name: Login to Azure
+      - name: Zip backend folder for deployment
+        run: zip -r backend.zip backend
+
+      - name: Azure Login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_80828753F4874E9897BEB176827D9137 }}
@@ -63,4 +67,4 @@ jobs:
         with:
           app-name: 'gct-placementapp-gstep'
           slot-name: 'Production'
-          package: ./node-backend
+          package: backend.zip

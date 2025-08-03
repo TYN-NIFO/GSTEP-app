@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext";
+import { StoreProvider } from "./redux/StoreProvider";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login.jsx";
@@ -25,7 +25,7 @@ import JobDrives from "./components/JobDrives.js";
 import PlacementConsent from './components/PlacementConsent';
 import OTPVerification from './components/OTPVerification';
 import EditJobDrive from './components/EditJobDrive';
-import { useAuth } from "./contexts/AuthContext";
+import { useAuth } from "./redux/customHooks/useAuth";
 import AllJobDrives from './components/AllJobDrives';
 import CreateJobDrive from './components/CreateJobDrive';
 import ManageDrives from './components/ManageDrives';
@@ -54,7 +54,7 @@ function DashboardRedirect() {
 
 function App() {
   return (
-    <AuthProvider>
+    <StoreProvider>
       <Router>
         <div className="App">
           <NavigationGuard />
@@ -176,7 +176,7 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </AuthProvider>
+    </StoreProvider>
   );
 }
 

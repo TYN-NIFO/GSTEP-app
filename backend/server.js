@@ -32,7 +32,7 @@ app.use(
       "s8f9230f23u29f3nq38nq328nfs9d8vnasdvn2398vn",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }, // Set to true in production with HTTPS
+    cookie: { secure: process.env.NODE_ENV === 'production' }, // Set to true in production with HTTPS
   })
 );
 
